@@ -14,3 +14,14 @@ exports.saveData= (req, res) =>{
         }
     })
 }
+
+exports.getData = (req, res)=>{
+    let sql = "select * from user"
+
+    db.query(sql, (err, result)=>{
+        if(err) throw err
+        else{
+            res.json(result)
+        }
+    })
+}

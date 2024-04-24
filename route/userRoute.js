@@ -4,6 +4,8 @@ const userController = require('../controller/userController.js')
 
 router.post('/saveData' , userController.saveData)
 
+router.get('/getData' , userController.getData)
+
 
 module.exports = router
 
