@@ -1,9 +1,11 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const db = require('./dataBaseConfig.js')
 const userRouter = require('./route/userRoute.js')
 
 let app = express()
 app.use(express.json())
+app.use(bodyParser.urlencoded({extended: true}))
 let port = 3000
 let hostname = '127.0.0.1'
 
