@@ -37,15 +37,10 @@ db.query(userTableQuery, (err, result)=>{
 })
 
 
-app.get('/', (req, res)=>{
-    res.render('index')
-})
-
 app.use('/api', userRouter)
 
 
 app.listen(port, hostname , ()=>{
-    console.log(`server is running at http://${hostname}:${port}`)
+    console.log(`server is running at http://${hostname}:${port}/api/`)
 })
-
 

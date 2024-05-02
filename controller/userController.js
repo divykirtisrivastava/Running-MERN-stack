@@ -10,7 +10,7 @@ exports.saveData= (req, res) =>{
     db.query(sql, [value], (err, result)=>{
         if(err) throw err
         else{
-            res.send("data submitted")
+            res.redirect('/api/viewData')
         }
     })
 }
@@ -49,4 +49,18 @@ exports.updateProduct = (req, res)=>{
             res.send("data updated")
         }
     })
+}
+
+exports.submitFile = (req, res)=>{
+    res.render('index')
+}
+
+exports.viewFile = (req, res)=>{
+    let sql = 'select * from user'
+    db.query(sql, (err, result)=>{
+        if(err) throw err
+        else{
+            res.render('viewData', {data: result})
+        }
+})
 }
