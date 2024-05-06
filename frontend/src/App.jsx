@@ -1,12 +1,12 @@
 import React from 'react'
 import Navbar from './components/Navbar'
-import Table from './components/Table'
+import {Outlet} from 'react-router-dom'
 
 export default function App() {
   return (
     <div>
       <Navbar/>
-      <Table/>
+      <Outlet/>
     </div>
   )
 }
