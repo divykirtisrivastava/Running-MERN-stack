@@ -6,4 +6,6 @@ router.post('/saveProduct', productController.saveProduct)
 
 router.get('/getProduct', productController.getProduct)
 
+router.delete('/deleteProduct/:id', productController.deleteProduct)
+
 module.exports = router

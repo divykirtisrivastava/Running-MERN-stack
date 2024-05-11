@@ -19,7 +19,7 @@ export default function Form() {
     }
 
     async function handleSubmit(e){
-        e.preventDefault()
+        e.preventDefault()        
         await axios.post('http://localhost:3000/api/saveProduct', data)
         navigation('/')
     }
