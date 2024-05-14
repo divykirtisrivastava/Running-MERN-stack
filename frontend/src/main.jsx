@@ -14,7 +14,7 @@ const router = createBrowserRouter(
       <Route path='' element={<Table/>}/>
       <Route path='/form' element={<Form/>}/>
       <Route path='/view/:id' element={<ViewData/>}/>
-      <Route path='/Updateproduct' element={<UpdateProduct/>}/>
+      <Route path='/update/:id' element={<UpdateProduct/>}/>
     </Route>
   )
 )
