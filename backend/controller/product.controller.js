@@ -38,3 +38,27 @@ exports.deleteProduct = (req, res)=>{
         }
     })
 }
+
+exports.getProductById = (req, res)=>{
+    let id = req.params.id
+    let sql = 'select * from product where id = ?'
+    db.query(sql, [id], (err, result)=>{
+        if(err) throw err
+        else{
+            res.json(result)
+        }
+    })
+}
+
+
+exports.updateProduct=(req,res)=>{
+    let id=req.params.id
+    let newData=req.body
+    let sql='update product set ? where id=?'
+    db.query(sql,[newData,id],(err,result)=>{
+        if(err) throw err
+        else{
+            res.send("data updated")
+        }
+    })
+}
