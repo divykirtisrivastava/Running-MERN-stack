@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { Menu, X } from 'lucide-react'
-import { Link } from 'react-router-dom'
 
 const menuItems = [
   {
@@ -19,7 +18,7 @@ const menuItems = [
   },
 ]
 
-export default function Navbar() {
+export default function ClientNavbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
   const toggleMenu = () => {
@@ -27,7 +26,7 @@ export default function Navbar() {
   }
 
   return (
-    <div className="relative w-full bg-white">
+    <div className="fixed z-50 w-full bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
           <span>
@@ -61,13 +60,12 @@ export default function Navbar() {
           </ul>
         </div>
         <div className="hidden lg:block">
-          <Link
+          <button
             type="button"
-            to='/admin/form'
             className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
           >
-            Add Product
-          </Link>
+           Cart
+          </button>
         </div>
         <div className="lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />

@@ -7,15 +7,24 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import Form from './components/Form.jsx'
 import UpdateProduct from './components/UpdateProduct.jsx'
 import ViewData from './components/ViewData.jsx'
+import ClientApp from './ClientApp.jsx'
+import Home from './components/client/Home.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<App/>}>
+   <>
+  <Route path='/' element={<ClientApp/>}>
+    <Route path='' element={<Home/>}/>
+  </Route>
+
+
+    <Route path='/admin' element={<App/>}>
       <Route path='' element={<Table/>}/>
-      <Route path='/form' element={<Form/>}/>
-      <Route path='/view/:id' element={<ViewData/>}/>
-      <Route path='/update/:id' element={<UpdateProduct/>}/>
+      <Route path='/admin/form' element={<Form/>}/>
+      <Route path='/admin/view/:id' element={<ViewData/>}/>
+      <Route path='/admin/update/:id' element={<UpdateProduct/>}/>
     </Route>
+   </>
   )
 )
 
