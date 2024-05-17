@@ -9,6 +9,8 @@ import UpdateProduct from './components/UpdateProduct.jsx'
 import ViewData from './components/ViewData.jsx'
 import ClientApp from './ClientApp.jsx'
 import Home from './components/client/Home.jsx'
+import AdminLogin from './components/AdminLogin.jsx'
+import Protected from './Protected.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,8 +21,17 @@ const router = createBrowserRouter(
 
 
     <Route path='/admin' element={<App/>}>
-      <Route path='' element={<Table/>}/>
-      <Route path='/admin/form' element={<Form/>}/>
+      <Route path='' element={
+        <Protected>
+          <Table/>
+        </Protected>
+      }/>
+      <Route path='/admin/form' element={
+        <Protected>
+          <Form/>
+        </Protected>
+      }/>
+      <Route path='/admin/adminLogin' element={<AdminLogin/>}/>
       <Route path='/admin/view/:id' element={<ViewData/>}/>
       <Route path='/admin/update/:id' element={<UpdateProduct/>}/>
     </Route>
