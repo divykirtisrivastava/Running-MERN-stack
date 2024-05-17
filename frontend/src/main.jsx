@@ -10,7 +10,7 @@ import ViewData from './components/ViewData.jsx'
 import ClientApp from './ClientApp.jsx'
 import Home from './components/client/Home.jsx'
 import AdminLogin from './components/AdminLogin.jsx'
-import Protected from './Protected.jsx'
+import Protected from './components/Protected.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
