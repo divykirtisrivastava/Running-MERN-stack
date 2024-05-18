@@ -36,7 +36,7 @@ db.query(userTableQuery, (err, result)=>{
 })
 
 let adminTableQuery = `
-CREATE TABLE IF NOT EXISTS admin (
+CREATE TABLE IF NOT EXISTS admin_table (
     id INT NOT NULL AUTO_INCREMENT,
     email VARCHAR(255) NULL,
     password VARCHAR(255) NULL,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS admin (
 db.query(adminTableQuery, (err, result)=>{
     if(err) throw err
     else{
-        console.log("user table is craeted")
+        console.log("table has been created")
     }
 })
 
@@ -54,4 +54,4 @@ app.listen(process.env.PORT, hostname , ()=>{
 })
 
 app.use('/api', productRoute)
-app.use('/api', adminRoute )
+app.use('/api', adminRoute)
