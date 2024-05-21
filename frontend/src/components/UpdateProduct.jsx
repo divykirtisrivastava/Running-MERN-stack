@@ -29,7 +29,7 @@ export default function UpdateProduct() {
     async function handleSubmit(e){
         e.preventDefault()        
         await axios.put(`http://localhost:4000/api/updateProduct/${id}`, data)
-        navigation('/')
+        navigation('/admin')
     }
 
 
