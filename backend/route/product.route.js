@@ -6,6 +6,8 @@ router.post('/saveProduct', productController.saveProduct)
 
 router.get('/getProduct', productController.getProduct)
 
+router.get('/getProductByBrand/:inp', productController.getProductByBrand)
+
 router.get('/getDataById/:id', productController.getProductById)
 
 router.delete('/deleteProduct/:id', productController.deleteProduct)

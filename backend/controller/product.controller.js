@@ -28,6 +28,17 @@ exports.getProduct = (req, res)=>{
     })
 }
 
+exports.getProductByBrand = (req, res)=>{
+    let inp = req.params.inp
+    let sql = 'select * from product where productBrand like ?'
+    db.query(sql,["%" + inp + "%"], (err, result)=>{
+        if(err) throw err
+        else{
+            res.json(result)
+        }
+    })
+}
+
 exports.deleteProduct = (req, res)=>{
     let id = req.params.id
     let sql = "delete from product where id = ?"
