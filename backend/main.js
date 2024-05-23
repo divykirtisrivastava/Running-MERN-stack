@@ -10,6 +10,9 @@ dotenv.config({
 let app = express()
 app.use(express.json())
 app.use(cors())
+// app.set('view Engine', 'ejs')
+app.use(express.static('uploads'))
+app.use(express.static('public'))
 let hostname = '127.0.0.1'
 db.connect((err)=>{
     if(err) throw err

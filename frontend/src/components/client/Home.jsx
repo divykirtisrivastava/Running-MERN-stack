@@ -135,7 +135,7 @@ async function getDataByBrand(){
         {data.map((data) => (
           <div className="w-[300px] rounded-md border">
             <img
-              src="https://images.unsplash.com/photo-1522199755839-a2bacb67c546?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGJsb2d8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"
+              src={`http://localhost:4000/${data.productImages}`}
               alt="Laptop"
               className="h-[200px] w-full rounded-md object-cover"
             />

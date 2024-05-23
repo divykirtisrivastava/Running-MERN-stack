@@ -5,23 +5,41 @@ import { useNavigate } from 'react-router-dom'
 
 export default function Form() {
     let navigation = useNavigate()
-    let [data, setData]= useState({
-        productBrand:"",
-        productType:"",
-        productRating:"",
-        productPrice:""
-    })
+    // let [data, setData]= useState({
+    //     productBrand:"",
+    //     productType:"",
+    //     productRating:"",
+    //     productPrice:"",
+    //     productImages:''
+    // })
 
-    const {productBrand, productType, productRating, productPrice} = data
+    // const {productBrand, productType, productRating, productPrice} = data
 
-    function handleChange(e){
-        setData({...data,[e.target.name]:e.target.value })
-    }
+    // function handleChange(e){
+    //     setData({...data,[e.target.name]:e.target.value })
+    // }
+let [productBrand, setProductBrand] = useState('')
+let [productType, setProductType] = useState('')
+let [productRating, setProductRating] = useState('')
+let [productPrice, setProductPrice] = useState('')
+let [productImages, setProductImages] = useState(null)
 
+console.log(productImages)
     async function handleSubmit(e){
+
+      let data = new FormData()
+      data.append("productBrand", productBrand)
+      data.append("productType", productType)
+      data.append("productRating", productRating)
+      data.append("productPrice", productPrice)
+      data.append("productImages", productImages)
         e.preventDefault()        
-        await axios.post('http://localhost:4000/api/saveProduct', data)
-        navigation('/')
+        await axios.post('http://localhost:4000/api/saveProduct', data, {
+          headers:{
+            'Content-Type' : 'multipart/form-data'
+          }
+        })
+        navigation('/admin')
     }
 
 
@@ -33,7 +51,7 @@ export default function Form() {
           <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
             <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl">Add Product</h2>
            
-            <form action="#" method="POST" className="mt-8" onSubmit={handleSubmit}>
+            <form action="#" method="POST" className="mt-8" onSubmit={handleSubmit} >
               <div className="space-y-5">
                 <div>
                   <label htmlFor="name" className="text-base font-medium text-gray-900">
@@ -47,8 +65,7 @@ export default function Form() {
                       placeholder="productBrand"
                       id="name"
                       name='productBrand'
-                      value={productBrand}
-                      onChange={handleChange}
+                      onChange={(e)=>setProductBrand(e.target.value)}
                     ></input>
                   </div>
                 </div>
@@ -64,8 +81,8 @@ export default function Form() {
                       placeholder="productType"
                       id="name"
                       name='productType'
-                      value={productType}
-                      onChange={handleChange}
+                      onChange={(e)=>setProductType(e.target.value)}
+
                     ></input>
                   </div>
                 </div>
@@ -81,8 +98,8 @@ export default function Form() {
                       placeholder="productRating"
                       id="name"
                       name='productRating'
-                      value={productRating}
-                      onChange={handleChange}
+                      onChange={(e)=>setProductRating(e.target.value)}
+
                     ></input>
                   </div>
                 </div>
@@ -98,8 +115,25 @@ export default function Form() {
                       placeholder="productPrice"
                       id="name"
                       name='productPrice'
-                      value={productPrice}
-                      onChange={handleChange}
+                      onChange={(e)=>setProductPrice(e.target.value)}
+
+                    ></input>
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="name" className="text-base font-medium text-gray-900">
+                    {' '}
+                    Product Image{' '}
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                      type="file"
+                      placeholder="productPrice"
+                      id="productImages"
+                      name='productImages'
+                     onChange={(e)=>setProductImages(e.target.files[0])}
+                     accept='/*images'
                     ></input>
                   </div>
                 </div>
