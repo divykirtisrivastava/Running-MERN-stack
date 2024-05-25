@@ -22,7 +22,7 @@ db.connect((err)=>{
 })
 
 
-let userTableQuery = `
+let productTableQuery = `
 CREATE TABLE IF NOT EXISTS product (
     id INT NOT NULL AUTO_INCREMENT,
     productBrand VARCHAR(255) NULL,
@@ -31,10 +31,25 @@ CREATE TABLE IF NOT EXISTS product (
     productPrice VARCHAR(255) NULL,
     PRIMARY KEY (id));
 `
-db.query(userTableQuery, (err, result)=>{
+db.query(productTableQuery, (err, result)=>{
     if(err) throw err
     else{
-        console.log("user table is craeted")
+        console.log("product table is craeted")
+    }
+})
+let cartTableQuery = `
+CREATE TABLE IF NOT EXISTS cart (
+    id INT NOT NULL AUTO_INCREMENT,
+    productBrand VARCHAR(255) NULL,
+    productType VARCHAR(255) NULL,
+    productRating VARCHAR(255) NULL,
+    productPrice VARCHAR(255) NULL,
+    PRIMARY KEY (id));
+`
+db.query(cartTableQuery, (err, result)=>{
+    if(err) throw err
+    else{
+        console.log("cart table is craeted")
     }
 })
 
