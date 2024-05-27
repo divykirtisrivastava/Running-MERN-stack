@@ -28,6 +28,18 @@ async function getDataByBrand(){
   let result = await axios.get(`http://localhost:4000/api/getProductByBrand/${inp}`)
   setData(result.data)
 }
+
+async function addtoCart(data){
+  await axios.post('http://localhost:4000/api/saveCart', {
+    productBrand: data.productBrand,
+    productType: data.productType,
+    productRating: data.productRating,
+    productPrice: data.productPrice,
+    productImages: data.productImages,
+
+  })
+  alert("product saved into cart")
+}
   return (
     <>
       <aside className="flex fixed h-screen w-64 flex-col overflow-y-auto border-r bg-black px-5 py-8">
@@ -148,6 +160,7 @@ async function getDataByBrand(){
 
               <button
                 type="button"
+                onClick={()=>addtoCart(data)}
                 className="mt-4 rounded-sm bg-black px-2.5 py-1 text-[10px] font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
               >
                 Add to Cart

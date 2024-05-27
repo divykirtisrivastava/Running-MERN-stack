@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 const cors = require('cors')
 const productRoute = require('./route/product.route.js')
 const adminRoute = require('./route/admin.route.js')
+const cartRoute = require('./route/cart.route.js')
 const db = require('./dataBaseConfig.js')
 dotenv.config({
     path:'./.env'
@@ -29,6 +30,7 @@ CREATE TABLE IF NOT EXISTS product (
     productType VARCHAR(255) NULL,
     productRating VARCHAR(255) NULL,
     productPrice VARCHAR(255) NULL,
+    productImages VARCHAR(255) NULL,
     PRIMARY KEY (id));
 `
 db.query(productTableQuery, (err, result)=>{
@@ -44,6 +46,7 @@ CREATE TABLE IF NOT EXISTS cart (
     productType VARCHAR(255) NULL,
     productRating VARCHAR(255) NULL,
     productPrice VARCHAR(255) NULL,
+    productImages VARCHAR(255) NULL,
     PRIMARY KEY (id));
 `
 db.query(cartTableQuery, (err, result)=>{
@@ -73,3 +76,4 @@ app.listen(process.env.PORT, hostname , ()=>{
 
 app.use('/api', productRoute)
 app.use('/api', adminRoute)
+app.use('/api', cartRoute)
