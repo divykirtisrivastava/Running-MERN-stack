@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Trash, Heart } from 'lucide-react'
 import axios from 'axios'
+import UserContext from '../../Context/UserContext'
 
 
 
 export default function Cart() {
 
   let [data, setData] = useState([])
-
+  let{setList}=useContext(UserContext)
   useEffect(()=>{
     getCart()
   }, [])
@@ -15,6 +16,7 @@ export default function Cart() {
   async function getCart(){
     let result = await axios.get('http://localhost:4000/api/getCart')
     setData(result.data)
+    setList(result.data.length)
   }
 
   async function deleteCart(id){

@@ -1,8 +1,9 @@
 'use client'
 
-import React from 'react'
+import React, { useContext } from 'react'
 import { Menu, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import UserContext from '../../Context/UserContext'
 
 const menuItems = [
   {
@@ -25,7 +26,7 @@ export default function ClientNavbar() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
-
+let {list}=useContext(UserContext)
   return (
     <div className="fixed z-50 w-full bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
@@ -67,7 +68,9 @@ export default function ClientNavbar() {
             className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
           >
            Cart
+           
           </Link>
+          <span className={`${list} ? 'absolute h-[30px] bg-red-400 w-[20px] -right-[-15px] top-[-5px] text-xl': 'hidden'`}>{list}</span>
         </div>
         <div className="lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />

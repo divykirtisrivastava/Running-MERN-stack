@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState ,useContext} from 'react'
 import { BarChart, Wallet, Newspaper, BellRing, Paperclip, Brush, Wrench } from 'lucide-react'
 import axios from 'axios'
-
+import UserContext from '../../Context/UserContext'
 export default function Home() {
   let [data, setData] = useState([])
   let [inp, setInp] = useState('')
 
   useEffect(() => {
     getData()
+    getCart()
   }, [])
   async function getData() {
     let result = await axios.get('http://localhost:4000/api/getProduct')
@@ -28,6 +29,16 @@ async function getDataByBrand(){
   let result = await axios.get(`http://localhost:4000/api/getProductByBrand/${inp}`)
   setData(result.data)
 }
+let{setList}=useContext(UserContext)
+  useEffect(()=>{
+    getCart()
+  }, [])
+
+  async function getCart(){
+    let result = await axios.get('http://localhost:4000/api/getCart')
+    
+    setList(result.data.length)
+  }
 
 async function addtoCart(data){
   await axios.post('http://localhost:4000/api/saveCart', {
@@ -39,6 +50,7 @@ async function addtoCart(data){
 
   })
   alert("product saved into cart")
+  getCart()
 }
   return (
     <>
