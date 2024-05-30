@@ -69,6 +69,20 @@ db.query(adminTableQuery, (err, result)=>{
         console.log("table has been created")
     }
 })
+let userDataTableQuery = `
+CREATE TABLE IF NOT EXISTS userData (
+    id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(255) NULL,
+    email VARCHAR(255) NULL,
+    password VARCHAR(255) NULL,
+    PRIMARY KEY (id));
+`
+db.query(userDataTableQuery, (err, result)=>{
+    if(err) throw err
+    else{
+        console.log("userData table has been created")
+    }
+})
 
 app.listen(process.env.PORT, hostname , ()=>{
     console.log(`😃server is running at http://${hostname}:${process.env.PORT}/api/`)

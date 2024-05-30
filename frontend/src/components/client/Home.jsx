@@ -2,6 +2,7 @@ import React, { useEffect, useState ,useContext} from 'react'
 import { BarChart, Wallet, Newspaper, BellRing, Paperclip, Brush, Wrench } from 'lucide-react'
 import axios from 'axios'
 import UserContext from '../../Context/UserContext'
+import { useNavigate } from 'react-router-dom'
 export default function Home() {
   let [data, setData] = useState([])
   let [inp, setInp] = useState('')
@@ -39,8 +40,11 @@ let{setList}=useContext(UserContext)
     
     setList(result.data.length)
   }
+  let {username} = useContext(UserContext)
+  let navigation = useNavigate()
 
 async function addtoCart(data){
+ if(username){
   await axios.post('http://localhost:4000/api/saveCart', {
     productBrand: data.productBrand,
     productType: data.productType,
@@ -51,6 +55,9 @@ async function addtoCart(data){
   })
   alert("product saved into cart")
   getCart()
+ }else{
+  navigation('/userLogin')
+ }
 }
   return (
     <>

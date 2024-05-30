@@ -61,7 +61,7 @@ let {list}=useContext(UserContext)
             ))}
           </ul>
         </div>
-        <div className="hidden lg:block">
+        <div className="hidden relative lg:block">
           <Link
             type="button"
             to="/cart"
@@ -70,7 +70,7 @@ let {list}=useContext(UserContext)
            Cart
            
           </Link>
-          <span className={`${list} ? 'absolute h-[30px] bg-red-400 w-[20px] -right-[-15px] top-[-5px] text-xl': 'hidden'`}>{list}</span>
+          <span className={`${list ? 'absolute h-[30px] bg-red-400 w-[20px] right-[-12px] top-[-12px] text-2xl text-center rounded': 'hidden'}`}>{list}</span>
         </div>
         <div className="lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />

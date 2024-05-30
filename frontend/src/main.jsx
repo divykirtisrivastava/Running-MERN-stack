@@ -12,6 +12,8 @@ import Home from './components/client/Home.jsx'
 import AdminLogin from './components/AdminLogin.jsx'
 import Protected from './components/Protected.jsx'
 import Cart from './components/client/Cart.jsx'
+import UserLogin from './components/client/UserLogin.jsx'
+import UserSignUp from './components/client/UserSignUp.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +21,8 @@ const router = createBrowserRouter(
   <Route path='/' element={<ClientApp/>}>
     <Route path='' element={<Home/>}/>
     <Route path='/cart' element={<Cart/>}/>
+    <Route path='/userLogin' element={<UserLogin/>}/>
+    <Route path='/userSignup' element={<UserSignUp/>}/>
   </Route>
 
 
