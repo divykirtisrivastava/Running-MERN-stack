@@ -22,15 +22,19 @@ exports.clientSave = async (req, res)=>{
 
 exports.clientLogin = (req, res)=>{
     try {
-        let username = req.body.username
+    let username = req.body.username
     let password = req.body.password
-    let sql = 'select * from userdata where username = ? and password = ?'
+    let sql = 'select * from userdata where username = ?'
 
-    db.query(sql, [username, password], (err, result)=>{
+    db.query(sql, [username], (err, result)=>{
         if(err) throw err
         else{
+            console.log(result)
             if (result.length > 0) {
-                res.send(true)
+                bcrypt.compare(password, result[0].password, (err, isMatch)=>{
+                    console.log(isMatch)
+                    res.send(isMatch)
+                })
             } else {
                 res.send(false)
             }
