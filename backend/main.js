@@ -4,6 +4,7 @@ const cors = require('cors')
 const productRoute = require('./route/product.route.js')
 const adminRoute = require('./route/admin.route.js')
 const cartRoute = require('./route/cart.route.js')
+const clientRoute = require('./route/client.Route.js')
 const db = require('./dataBaseConfig.js')
 dotenv.config({
     path:'./.env'
@@ -75,6 +76,7 @@ CREATE TABLE IF NOT EXISTS userData (
     username VARCHAR(255) NULL,
     email VARCHAR(255) NULL,
     password VARCHAR(255) NULL,
+    image VARCHAR(255) NULL,
     PRIMARY KEY (id));
 `
 db.query(userDataTableQuery, (err, result)=>{
@@ -91,3 +93,4 @@ app.listen(process.env.PORT, hostname , ()=>{
 app.use('/api', productRoute)
 app.use('/api', adminRoute)
 app.use('/api', cartRoute)
+app.use('/api', clientRoute)

@@ -1,7 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 export default function UserSignUp() {
+
+    let navigation = useNavigate()
+
+    let [username, setUsername] = useState('')
+    let [email, setEmail] = useState('')
+    let [password, setPassword] = useState('')
+    let [image, setImage] = useState(null)
+
+    async function handlesubmit(e){
+        e.preventDefault()
+        let product = new FormData()
+        product.append('username', username)
+        product.append('email', email)
+        product.append('password', password)
+        product.append('image', image)
+
+        await axios.post('http://localhost:4000/api/clientSave', product, {
+            headers:{
+                'Content-Type' : 'multipart/form-Data'
+            }
+        })
+        navigation('/userLogin')
+    }
+
   return (
     <section>
       <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -18,7 +44,7 @@ export default function UserSignUp() {
                 Sign In
               </a>
             </p>
-            <form action="#" method="POST" className="mt-8">
+            <form action="#" method="POST" className="mt-8" onSubmit={handlesubmit}>
               <div className="space-y-5">
                 <div>
                   <label htmlFor="name" className="text-base font-medium text-gray-900">
@@ -31,6 +57,7 @@ export default function UserSignUp() {
                       type="text"
                       placeholder="username"
                       id="name"
+                      onChange={(e)=>setUsername(e.target.value)}
                     ></input>
                   </div>
                 </div>
@@ -45,6 +72,7 @@ export default function UserSignUp() {
                       type="email"
                       placeholder="Email"
                       id="email"
+                      onChange={(e)=>setEmail(e.target.value)}
                     ></input>
                   </div>
                 </div>
@@ -61,15 +89,35 @@ export default function UserSignUp() {
                       type="password"
                       placeholder="Password"
                       id="password"
+                      onChange={(e)=>setPassword(e.target.value)}
+                    ></input>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center justify-between">
+                    <label htmlFor="password" className="text-base font-medium text-gray-900">
+                      {' '}
+                      Image{' '}
+                    </label>
+                  </div>
+                  <div className="mt-2">
+                    <input
+                      className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                      type="file"
+                      placeholder="image"
+                      id="image"
+                      accept='*/images'
+                      onChange={(e)=>setImage(e.target.files[0])}
                     ></input>
                   </div>
                 </div>
                 <div>
                   <button
-                    type="button"
+                    type="submit"
+                 
                     className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                   >
-                    Create Account <ArrowRight className="ml-2" size={16} />
+                    Sign Up <ArrowRight className="ml-2" size={16} />
                   </button>
                 </div>
               </div>
