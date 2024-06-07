@@ -7,6 +7,8 @@ export default function Home() {
   let [data, setData] = useState([])
   let [inp, setInp] = useState('')
 
+  let {username} = useContext(UserContext)
+
   useEffect(() => {
     getData()
     getCart()
@@ -36,16 +38,16 @@ let{setList}=useContext(UserContext)
   }, [])
 
   async function getCart(){
-    let result = await axios.get('http://localhost:4000/api/getCart')
+    let result = await axios.get(`http://localhost:4000/api/getCart/${username}`)
     
     setList(result.data.length)
   }
-  let {username} = useContext(UserContext)
+
   let navigation = useNavigate()
 
 async function addtoCart(data){
  if(username){
-  await axios.post('http://localhost:4000/api/saveCart', {
+  await axios.post(`http://localhost:4000/api/saveCart/${username}`, {
     productBrand: data.productBrand,
     productType: data.productType,
     productRating: data.productRating,

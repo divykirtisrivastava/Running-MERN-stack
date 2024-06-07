@@ -25,11 +25,17 @@ export default function UserLogin() {
     let result = await axios.post('http://127.0.0.1:4000/api/clientLogin', data)
     console.log(result)
     if(result.data == true){
-      setUsername(true)
+      setUsername(data.username)
       navigation('/')
+      createClientTable(data.username)
     }else{
       alert("U enter worng data")
     }
+  }
+
+
+  async function createClientTable(username){
+    await axios.get(`http://localhost:4000/api/createClient/${username}`)
   }
   return (
     <section>
