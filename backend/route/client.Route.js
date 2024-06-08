@@ -8,4 +8,6 @@ router.post('/clientLogin', clientController.clientLogin)
 
 router.get('/createClient/:username', clientController.createClient)
 
+router.get('/getClient/:username', clientController.getClient)
+
 module.exports = router

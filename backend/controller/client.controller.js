@@ -65,3 +65,15 @@ db.query(clientTableQuery, (err, result)=>{
 })
 }
 
+exports.getClient = (req, res)=>{
+    let username = req.params.username
+    let sql = "select * from userdata where username = ?"
+
+    db.query(sql, [username], (err, result)=>{
+        if(err) throw err
+        else{
+            res.json(result)
+        }
+    })
+
+}

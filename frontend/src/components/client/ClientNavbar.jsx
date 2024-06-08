@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import UserContext from '../../Context/UserContext'
-
+import axios from 'axios'
 const menuItems = [
   {
     name: 'Home',
@@ -27,6 +27,19 @@ export default function ClientNavbar() {
     setIsMenuOpen(!isMenuOpen)
   }
 let {list}=useContext(UserContext)
+let {username}=useContext(UserContext)
+let [data, setData] = useState([])
+
+useEffect(()=>{
+  getClient()
+}, [username])
+
+async function getClient(){
+  if(username){
+    let result = await axios.get(`http://localhost:4000/api/getClient/${username}`)
+    setData(result.data)
+  }
+}
   return (
     <div className="fixed z-50 w-full bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
@@ -61,6 +74,7 @@ let {list}=useContext(UserContext)
             ))}
           </ul>
         </div>
+        <div className='flex items-center gap-[20px]'>
         <div className="hidden relative lg:block">
           <Link
             type="button"
@@ -71,6 +85,21 @@ let {list}=useContext(UserContext)
            
           </Link>
           <span className={`${list ? 'absolute h-[30px] bg-red-400 w-[20px] right-[-12px] top-[-12px] text-2xl text-center rounded': 'hidden'}`}>{list}</span>
+        </div>
+        {
+          data.map((data)=>(
+            <div className="ml-2 mt-2 hidden lg:block">
+          <span className="relative inline-block">
+            <img
+              className="h-10 w-10 rounded-full"
+              src={`http://localhost:4000/${data.image}`}
+              alt="Dan_Abromov"
+            />
+            <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-600 ring-2 ring-white"></span>
+          </span>
+        </div>
+          ))
+        }
         </div>
         <div className="lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
