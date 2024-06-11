@@ -7,6 +7,7 @@ import UserContext from '../../Context/UserContext'
 
 export default function UserLogin() {
   let {setUsername} = useContext(UserContext)
+  let {login} = useContext(UserContext)
  
 
   let [data, setData]= useState({
@@ -22,9 +23,11 @@ export default function UserLogin() {
   }
   async function handleSubmit(e){
     e.preventDefault()
-    let result = await axios.post('http://127.0.0.1:4000/api/clientLogin', data)
-    console.log(result.data.token)
-    if(result.data.isMatch == true){
+
+    let result =  await login(data.username, data.password)
+    // let result = await axios.post('http://127.0.0.1:4000/api/clientLogin', data)
+    // console.log(result.data.token)
+    if(result == true){
       setUsername(data.username)
       navigation('/')
       createClientTable(data.username)

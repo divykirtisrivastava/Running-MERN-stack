@@ -86,7 +86,7 @@ exports.getClient = (req, res)=>{
 }
 
 exports.profile = (req, res)=>{
-    let token  = req.header['authorization'].split(' ')[1]
+    let token  = req.headers['authorization'].split(' ')[1]
     if(token){
         jwt.verify(token, process.env.JWT_SECRET, (err, decode)=>{
             if(err) throw err
