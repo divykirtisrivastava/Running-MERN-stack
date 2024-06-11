@@ -23,8 +23,8 @@ export default function UserLogin() {
   async function handleSubmit(e){
     e.preventDefault()
     let result = await axios.post('http://127.0.0.1:4000/api/clientLogin', data)
-    console.log(result)
-    if(result.data == true){
+    console.log(result.data.token)
+    if(result.data.isMatch == true){
       setUsername(data.username)
       navigation('/')
       createClientTable(data.username)

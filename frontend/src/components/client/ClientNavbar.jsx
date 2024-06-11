@@ -30,7 +30,7 @@ let {list}=useContext(UserContext)
 let {username}=useContext(UserContext)
 let [data, setData] = useState([])
 
-useEffect(()=>{
+useEffect(()=>{ 
   getClient()
 }, [username])
 
@@ -38,7 +38,7 @@ async function getClient(){
   if(username){
     let result = await axios.get(`http://localhost:4000/api/getClient/${username}`)
     setData(result.data)
-  }
+  } 
 }
   return (
     <div className="fixed z-50 w-full bg-white">

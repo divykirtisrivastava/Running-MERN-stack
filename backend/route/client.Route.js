@@ -9,5 +9,6 @@ router.post('/clientLogin', clientController.clientLogin)
 router.get('/createClient/:username', clientController.createClient)
 
 router.get('/getClient/:username', clientController.getClient)
+router.get('/profile', clientController.profile)
 
 module.exports = router

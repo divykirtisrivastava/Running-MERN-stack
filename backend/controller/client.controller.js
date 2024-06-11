@@ -1,5 +1,11 @@
 const db = require('../dataBaseConfig.js')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
+
+async function genrateToken(user){
+   return   jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1h'})
+}
 
 exports.clientSave = async (req, res)=>{
     let username = req.body.username
@@ -20,20 +26,21 @@ exports.clientSave = async (req, res)=>{
     })
 }
 
-exports.clientLogin = (req, res)=>{
+exports.clientLogin = async (req, res)=>{
     try {
     let username = req.body.username
     let password = req.body.password
     let sql = 'select * from userdata where username = ?'
 
-    db.query(sql, [username], (err, result)=>{
+    db.query(sql, [username],  (err, result)=>{
         if(err) throw err
         else{
             console.log(result)
             if (result.length > 0) {
-                bcrypt.compare(password, result[0].password, (err, isMatch)=>{
-                    console.log(isMatch)
-                    res.send(isMatch)
+                bcrypt.compare(password, result[0].password, async (err, isMatch)=>{
+                   let token  = await genrateToken(result[0])
+                   console.log(token)
+                    res.send({token, isMatch})
                 })
             } else {
                 res.send(false)
@@ -76,4 +83,21 @@ exports.getClient = (req, res)=>{
         }
     })
 
+}
+
+exports.profile = (req, res)=>{
+    let token  = req.header['authorization'].split(' ')[1]
+    if(token){
+        jwt.verify(token, process.env.JWT_SECRET, (err, decode)=>{
+            if(err) throw err
+            else{
+                db.query("select * from userdata where id = ?", [decode.id], (err, result)=>{
+                    if(err) throw err
+                    else{
+                        res.json(result)
+                    }
+                })
+            }
+        })
+    }
 }
