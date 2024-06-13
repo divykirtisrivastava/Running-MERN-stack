@@ -94,7 +94,7 @@ exports.profile = (req, res)=>{
                 db.query("select * from userdata where id = ?", [decode.id], (err, result)=>{
                     if(err) throw err
                     else{
-                        res.json(result)
+                        res.json(result[0])
                     }
                 })
             }

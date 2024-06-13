@@ -94,3 +94,5 @@ app.use('/api', productRoute)
 app.use('/api', adminRoute)
 app.use('/api', cartRoute)
 app.use('/api', clientRoute)
+
+

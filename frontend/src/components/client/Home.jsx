@@ -7,12 +7,12 @@ export default function Home() {
   let [data, setData] = useState([])
   let [inp, setInp] = useState('')
 
-  let {username} = useContext(UserContext)
-
+  let {auth} = useContext(UserContext)
+console.log(auth)
   useEffect(() => {
     getData()
     getCart()
-  }, [])
+  }, [auth])
   async function getData() {
     let result = await axios.get('http://localhost:4000/api/getProduct')
     setData(result.data)
@@ -38,16 +38,18 @@ let{setList}=useContext(UserContext)
   }, [])
 
   async function getCart(){
-    let result = await axios.get(`http://localhost:4000/api/getCart/${username}`)
+   if(auth.isAutherzed){
+    let result = await axios.get(`http://localhost:4000/api/getCart/${auth.username}`)
     
     setList(result.data.length)
+   }
   }
 
   let navigation = useNavigate()
 
 async function addtoCart(data){
- if(username){
-  await axios.post(`http://localhost:4000/api/saveCart/${username}`, {
+ if(auth.isAutherzed){
+  await axios.post(`http://localhost:4000/api/saveCart/${auth.username}`, {
     productBrand: data.productBrand,
     productType: data.productType,
     productRating: data.productRating,

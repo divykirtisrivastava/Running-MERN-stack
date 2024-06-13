@@ -20,26 +20,34 @@ const menuItems = [
   },
 ]
 
+
 export default function ClientNavbar() {
+  let [show, setShow] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
-let {list}=useContext(UserContext)
-let {username}=useContext(UserContext)
-let [data, setData] = useState([])
+  let { list } = useContext(UserContext)
+  let { auth , logOut} = useContext(UserContext)
+  let [data, setData] = useState([])
 
-useEffect(()=>{ 
-  getClient()
-}, [username])
+  useEffect(() => {
+    getClient()
+  }, [auth])
 
-async function getClient(){
-  if(username){
-    let result = await axios.get(`http://localhost:4000/api/getClient/${username}`)
-    setData(result.data)
-  } 
-}
+  async function getClient() {
+    if (auth.isAutherzed) {
+      let result = await axios.get(`http://localhost:4000/api/getClient/${auth.username}`)
+      setData(result.data)
+    }
+  }
+  function handleLogout(){
+    logOut()
+    window.location.reload()
+  }
   return (
     <div className="fixed z-50 w-full bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
@@ -75,31 +83,46 @@ async function getClient(){
           </ul>
         </div>
         <div className='flex items-center gap-[20px]'>
-        <div className="hidden relative lg:block">
-          <Link
-            type="button"
-            to="/cart"
-            className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-          >
-           Cart
-           
-          </Link>
-          <span className={`${list ? 'absolute h-[30px] bg-red-400 w-[20px] right-[-12px] top-[-12px] text-2xl text-center rounded': 'hidden'}`}>{list}</span>
-        </div>
-        {
-          data.map((data)=>(
-            <div className="ml-2 mt-2 hidden lg:block">
-          <span className="relative inline-block">
-            <img
-              className="h-10 w-10 rounded-full"
-              src={`http://localhost:4000/${data.image}`}
-              alt="Dan_Abromov"
-            />
-            <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-600 ring-2 ring-white"></span>
-          </span>
-        </div>
-          ))
-        }
+          <div className="hidden relative lg:block">
+            <Link
+              type="button"
+              to="/cart"
+              className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            >
+              Cart
+
+            </Link>
+            <span className={`${list ? 'absolute h-[30px] bg-red-400 w-[20px] right-[-12px] top-[-12px] text-2xl text-center rounded' : 'hidden'}`}>{list}</span>
+          </div>
+          {
+            data.map((data) => (
+              <div className="ml-2 mt-2 hidden lg:block relative">
+                <span className="relative inline-block" onClick={() => setShow(!show)}>
+                  <img
+                    className="h-10 w-10 rounded-full"
+                    src={`http://localhost:4000/${data.image}`}
+                    alt="Dan_Abromov"
+                  />
+                  <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-600 ring-2 ring-white"></span>
+                </span>
+                {show && <div className='h-[200px] w-[150px] rounded-[20px] bg-red-400 absolute right-[0px] flex flex-col justify-evenly items-center'>
+
+                  <img
+                    className="h-[80px] w-[80px] rounded-full"
+                    src={`http://localhost:4000/${data.image}`}
+                    alt="Dan_Abromov"
+                  />
+                  <h2 className='uppercase font-bold text-3xl'>{data.username}</h2>
+                  <button className='p-2 bg-black text-white rounded-xl'
+                  onClick={handleLogout}
+                  >Logout</button>
+                </div>
+
+                }
+
+              </div>
+            ))
+          }
         </div>
         <div className="lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
