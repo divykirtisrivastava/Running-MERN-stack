@@ -5,6 +5,7 @@ const productRoute = require('./route/product.route.js')
 const adminRoute = require('./route/admin.route.js')
 const cartRoute = require('./route/cart.route.js')
 const clientRoute = require('./route/client.Route.js')
+const session = require('express-session');
 const db = require('./dataBaseConfig.js')
 dotenv.config({
     path:'./.env'
@@ -12,9 +13,16 @@ dotenv.config({
 let app = express()
 app.use(express.json())
 app.use(cors())
-// app.set('view Engine', 'ejs')
 app.use(express.static('uploads'))
 app.use(express.static('public'))
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+  }));
+
+
+
 let hostname = '127.0.0.1'
 db.connect((err)=>{
     if(err) throw err

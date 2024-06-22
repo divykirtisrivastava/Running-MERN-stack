@@ -18,6 +18,7 @@ import UserSignUp from './components/client/UserSignUp.jsx'
 const router = createBrowserRouter(
   createRoutesFromElements(
    <>
+
   <Route path='/' element={<ClientApp/>}>
     <Route path='' element={<Home/>}/>
     <Route path='/cart' element={<Cart/>}/>
@@ -25,8 +26,7 @@ const router = createBrowserRouter(
     <Route path='/userSignup' element={<UserSignUp/>}/>
   </Route>
 
-
-    <Route path='/admin' element={<App/>}>
+  <Route path='/admin' element={<App/>}>
       <Route path='' element={
         <Protected>
           <Table/>
@@ -40,7 +40,8 @@ const router = createBrowserRouter(
       <Route path='/admin/adminLogin' element={<AdminLogin/>}/>
       <Route path='/admin/view/:id' element={<ViewData/>}/>
       <Route path='/admin/update/:id' element={<UpdateProduct/>}/>
-    </Route>
+  </Route>
+              
    </>
   )
 )
