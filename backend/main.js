@@ -7,6 +7,9 @@ const cartRoute = require('./route/cart.route.js')
 const clientRoute = require('./route/client.Route.js')
 const session = require('express-session');
 const db = require('./dataBaseConfig.js')
+// goggle auth
+const passport = require('passport');
+const authRoutes  =require('./authRoutes')
 dotenv.config({
     path:'./.env'
 })
@@ -102,5 +105,11 @@ app.use('/api', productRoute)
 app.use('/api', adminRoute)
 app.use('/api', cartRoute)
 app.use('/api', clientRoute)
+// Routes
+app.use('/auth', authRoutes);
+
+// for google
+app.use(passport.initialize());
+app.use(passport.session());
 
 

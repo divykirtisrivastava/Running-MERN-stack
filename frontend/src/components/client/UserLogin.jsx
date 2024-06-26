@@ -39,6 +39,12 @@ export default function UserLogin() {
   async function createClientTable(username){
     await axios.get(`http://localhost:4000/api/createClient/${username}`)
   }
+
+
+  const handleGoogleSignIn = () => {
+    window.location.href = 'http://localhost:4000/auth/google'
+  }
+  
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
@@ -123,6 +129,7 @@ export default function UserLogin() {
           <div className="mt-3 space-y-3">
             <button
               type="button"
+              onClick={handleGoogleSignIn}
               className="relative inline-flex w-full items-center justify-center rounded-md border border-gray-400 bg-white px-3.5 py-2.5 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black focus:outline-none"
             >
               <span className="mr-2 inline-block">
