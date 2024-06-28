@@ -1,5 +1,6 @@
 const express = require('express')
 const dotenv = require('dotenv')
+require('dotenv').config();
 const cors = require('cors')
 const productRoute = require('./route/product.route.js')
 const adminRoute = require('./route/admin.route.js')
@@ -8,11 +9,10 @@ const clientRoute = require('./route/client.Route.js')
 const session = require('express-session');
 const db = require('./dataBaseConfig.js')
 // goggle auth
+// goggle auth
 const passport = require('passport');
-const authRoutes  =require('./authRoutes')
-dotenv.config({
-    path:'./.env'
-})
+const authRoutes  =require('./authRoutes.js')
+
 let app = express()
 app.use(express.json())
 app.use(cors())
@@ -105,11 +105,11 @@ app.use('/api', productRoute)
 app.use('/api', adminRoute)
 app.use('/api', cartRoute)
 app.use('/api', clientRoute)
-// Routes
-app.use('/auth', authRoutes);
 
-// for google
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Routes
+app.use('/auth', authRoutes);
 
 

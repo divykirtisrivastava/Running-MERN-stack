@@ -1,60 +1,60 @@
+// routes/authRoutes.js
+
 const express = require('express');
-const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const router = express.Router();
 const db = require('./dataBaseConfig'); // Corrected path
 
 // Google OAuth Strategy
 
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: '/auth/google/callback',
-  }, async (accessToken, refreshToken, profile, done) => {
-    try {
-      // Check if user exists in database, if not, create new user
-      let sql = 'SELECT * FROM clientdetail WHERE googleId = ?';
-      db.query(sql, [profile.id], (err, rows) => {
-        if (err) return done(err);
-        if (rows.length) {
-          const user = rows[0];
-          return done(null, {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            userImage: user.userImage,
-          });
-        } else {
-          const newUser = {
-            googleId: profile.id,
-            username: profile.displayName,
-            email: profile.emails[0].value,
-            userImage: profile.photos[0].value,
-            // Add additional fields as needed
-          };
-  
-          sql = 'INSERT INTO clientdetail SET ?';
-          db.query(sql, newUser, (err, result) => {
-            if (err) return done(err);
-            newUser.id = result.insertId;
-            done(null, {
-              id: newUser.id,
-              username: newUser.username,
-              email: newUser.email,
-              userImage: newUser.userImage,
-            });
-          });
-        }
-      });
-    } catch (err) {
-      console.error(err);
-      done(err, null);
-    }
-  }
-))
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: '/auth/google/callback',
+}, async (accessToken, refreshToken, profile, done) => {
+  try {
+    // Check if user exists in database, if not, create new user
+    let sql = 'SELECT * FROM clientdetail WHERE googleId = ?';
+    db.query(sql, [profile.id], (err, rows) => {
+      if (err) return done(err);
+      if (rows.length) {
+        const user = rows[0];
+        return done(null, {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          userImage: user.userImage,
+        });
+      } else {
+        const newUser = {
+          googleId: profile.id,
+          username: profile.displayName,
+          email: profile.emails[0].value,
+          userImage: profile.photos[0].value,
+          // Add additional fields as needed
+        };
 
+        sql = 'INSERT INTO clientdetail SET ?';
+        db.query(sql, newUser, (err, result) => {
+          if (err) return done(err);
+          newUser.id = result.insertId;
+          done(null, {
+            id: newUser.id,
+            username: newUser.username,
+            email: newUser.email,
+            userImage: newUser.userImage,
+          });
+        });
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    done(err, null);
+  }
+}));
 
 // Serialize and Deserialize user
 passport.serializeUser((user, done) => {
@@ -88,7 +88,7 @@ router.get('/google/callback',
       email: user.email,
       userImage: user.userImage,
     };
-    const token = jwt.sign(payload, process.env.JWT_SECRET);
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn:'1h'});
     res.redirect(`http://localhost:5173/${token}`);
   }
 );
@@ -107,3 +107,5 @@ router.get('/verify', (req, res) => {
     res.status(401).send('Invalid token');
   }
 });
+
+module.exports = router;
