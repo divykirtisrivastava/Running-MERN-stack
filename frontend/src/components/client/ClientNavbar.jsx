@@ -100,12 +100,13 @@ export default function ClientNavbar() {
             data.map((data) => (
               <div className="ml-2 mt-2 hidden lg:block relative">
                 <span className="relative inline-block" onClick={() => setShow(!show)}>
-                  
+
                   <img
                     className="h-10 w-10 rounded-full"
                     src={data.image}
                     alt="Dan_Abromov"
                   />
+                  
                   <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-600 ring-2 ring-white"></span>
                 </span>
                 {show && <div className='h-[200px] w-[150px] rounded-[20px] bg-red-400 absolute right-[0px] flex flex-col justify-evenly items-center'>
