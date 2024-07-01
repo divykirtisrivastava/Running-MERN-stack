@@ -17,7 +17,7 @@ passport.use(new GoogleStrategy({
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     // Check if user exists in database, if not, create new user
-    let sql = 'SELECT * FROM clientdetail WHERE googleId = ?';
+    let sql = 'SELECT * FROM userdata WHERE googleId = ?';
     db.query(sql, [profile.id], (err, rows) => {
       if (err) return done(err);
       if (rows.length) {
@@ -26,18 +26,18 @@ passport.use(new GoogleStrategy({
           id: user.id,
           username: user.username,
           email: user.email,
-          userImage: user.userImage,
+          image: user.image,
         });
       } else {
         const newUser = {
           googleId: profile.id,
           username: profile.displayName,
           email: profile.emails[0].value,
-          userImage: profile.photos[0].value,
+          image: profile.photos[0].value,
           // Add additional fields as needed
         };
 
-        sql = 'INSERT INTO clientdetail SET ?';
+        sql = 'INSERT INTO userdata SET ?';
         db.query(sql, newUser, (err, result) => {
           if (err) return done(err);
           newUser.id = result.insertId;
@@ -45,7 +45,7 @@ passport.use(new GoogleStrategy({
             id: newUser.id,
             username: newUser.username,
             email: newUser.email,
-            userImage: newUser.userImage,
+            image: newUser.image,
           });
         });
       }
@@ -62,7 +62,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  let sql = 'SELECT * FROM clientdetail WHERE id = ?';
+  let sql = 'SELECT * FROM userdata WHERE id = ?';
   db.query(sql, [id], (err, rows) => {
     if (err) return done(err);
     const user = rows[0];
@@ -70,7 +70,7 @@ passport.deserializeUser((id, done) => {
       id: user.id,
       username: user.username,
       email: user.email,
-      userImage: user.userImage,
+      image: user.image,
     });
   });
 });
@@ -86,7 +86,7 @@ router.get('/google/callback',
       id: user.id,
       username: user.username,
       email: user.email,
-      userImage: user.userImage,
+      image: user.image,
     };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn:'1h'});
     res.redirect(`http://localhost:5173/${token}`);
@@ -95,13 +95,15 @@ router.get('/google/callback',
 
 // Verify JWT token route
 router.get('/verify', (req, res) => {
-  const token = req.headers['authorization'];
+  const token = req.headers['authorization'].split(' ')[1];
+  console.log(token)
   if (!token) {
     return res.status(401).send('Token is missing');
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decoded)
     res.status(200).send(decoded);
   } catch (err) {
     res.status(401).send('Invalid token');

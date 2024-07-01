@@ -74,7 +74,7 @@ db.query(clientTableQuery, (err, result)=>{
 
 exports.getClient = (req, res)=>{
     let username = req.params.username
-    let sql = "select * from userdata where username = ?"
+    let sql = "select * from userdata where id = ?"
 
     db.query(sql, [username], (err, result)=>{
         if(err) throw err

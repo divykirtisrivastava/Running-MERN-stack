@@ -39,8 +39,10 @@ export default function ClientNavbar() {
   }, [auth])
 
   async function getClient() {
-    if (auth.isAutherzed) {
-      let result = await axios.get(`http://localhost:4000/api/getClient/${auth.username}`)
+    if (auth.id) {
+      console.log(auth.id)
+      let result = await axios.get(`http://localhost:4000/api/getClient/${auth.id}`)
+      console.log(result)
       setData(result.data)
     }
   }
@@ -100,7 +102,7 @@ export default function ClientNavbar() {
                 <span className="relative inline-block" onClick={() => setShow(!show)}>
                   <img
                     className="h-10 w-10 rounded-full"
-                    src={`http://localhost:4000/${data.image}`}
+                    src={data.image}
                     alt="Dan_Abromov"
                   />
                   <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-600 ring-2 ring-white"></span>
@@ -109,7 +111,7 @@ export default function ClientNavbar() {
 
                   <img
                     className="h-[80px] w-[80px] rounded-full"
-                    src={`http://localhost:4000/${data.image}`}
+                    src={data.image}
                     alt="Dan_Abromov"
                   />
                   <h2 className='uppercase font-bold text-3xl'>{data.username}</h2>

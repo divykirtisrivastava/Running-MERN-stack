@@ -2,13 +2,25 @@ import React, { useEffect, useState ,useContext} from 'react'
 import { BarChart, Wallet, Newspaper, BellRing, Paperclip, Brush, Wrench } from 'lucide-react'
 import axios from 'axios'
 import UserContext from '../../Context/UserContext'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 export default function Home() {
   let [data, setData] = useState([])
   let [inp, setInp] = useState('')
+  let navigation = useNavigate()
 
-  let {auth} = useContext(UserContext)
-console.log(auth)
+
+  let {token} = useParams()
+  let {auth, getGoogleProfile} = useContext(UserContext)
+
+useEffect(()=>{
+  if(token){
+    localStorage.setItem('token', token)
+    getGoogleProfile()
+    navigation('/')
+  }
+}, [token])
+
+
   useEffect(() => {
     getData()
     getCart()
@@ -38,17 +50,16 @@ let{setList}=useContext(UserContext)
   }, [])
 
   async function getCart(){
-   if(auth.isAutherzed){
+   if(auth.username){
     let result = await axios.get(`http://localhost:4000/api/getCart/${auth.username}`)
     
     setList(result.data.length)
    }
   }
 
-  let navigation = useNavigate()
 
 async function addtoCart(data){
- if(auth.isAutherzed){
+ if(auth.username){
   await axios.post(`http://localhost:4000/api/saveCart/${auth.username}`, {
     productBrand: data.productBrand,
     productType: data.productType,

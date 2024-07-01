@@ -21,6 +21,7 @@ const router = createBrowserRouter(
 
   <Route path='/' element={<ClientApp/>}>
     <Route path='' element={<Home/>}/>
+    <Route path='/:token' element={<Home/>}/>
     <Route path='/cart' element={<Cart/>}/>
     <Route path='/userLogin' element={<UserLogin/>}/>
     <Route path='/userSignup' element={<UserSignUp/>}/>
