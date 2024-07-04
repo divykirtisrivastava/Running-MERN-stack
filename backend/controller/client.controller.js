@@ -37,6 +37,7 @@ exports.clientLogin = async (req, res)=>{
     db.query(sql, [username],  (err, result)=>{
         if(err) throw err
         else{
+            
             console.log(result)
             if (result.length > 0) {
                 bcrypt.compare(password, result[0].password, async (err, isMatch)=>{
