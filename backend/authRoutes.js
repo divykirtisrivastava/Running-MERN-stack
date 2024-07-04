@@ -1,12 +1,10 @@
-// routes/authRoutes.js
+
 
 const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
-const db = require('./dataBaseConfig'); // Corrected path
-
-// Google OAuth Strategy
+const db = require('./dataBaseConfig');
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
@@ -15,8 +13,9 @@ passport.use(new GoogleStrategy({
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: '/auth/google/callback',
 }, async (accessToken, refreshToken, profile, done) => {
+  console.log(profile)
   try {
-    // Check if user exists in database, if not, create new user
+
     let sql = 'SELECT * FROM userdata WHERE googleId = ?';
     db.query(sql, [profile.id], (err, rows) => {
       if (err) return done(err);
@@ -34,7 +33,7 @@ passport.use(new GoogleStrategy({
           username: profile.displayName,
           email: profile.emails[0].value,
           image: profile.photos[0].value,
-          // Add additional fields as needed
+
         };
 
         sql = 'INSERT INTO userdata SET ?';
@@ -56,7 +55,6 @@ passport.use(new GoogleStrategy({
   }
 }));
 
-// Serialize and Deserialize user
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
@@ -75,7 +73,7 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-// Google OAuth routes
+
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/google/callback',
@@ -88,12 +86,12 @@ router.get('/google/callback',
       email: user.email,
       image: user.image,
     };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn:'1h'});
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.redirect(`http://localhost:5173/${token}`);
   }
 );
 
-// Verify JWT token route
+
 router.get('/verify', (req, res) => {
   const token = req.headers['authorization'].split(' ')[1];
   console.log(token)

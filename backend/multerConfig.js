@@ -7,4 +7,7 @@ cb(null , file.fieldname+"_"  + Date.now()+path.extname(file.originalname))
     }
 })
 
-module.exports = multer({storage: storage})
+module.exports = multer({
+    storage: storage,
+
+})

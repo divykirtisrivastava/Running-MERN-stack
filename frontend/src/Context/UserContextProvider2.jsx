@@ -23,20 +23,20 @@ export default function UserContextProvider2({children}){
       setAuth({token:null ,isAutherzed:false, username: ''})
     }
 
-  // async  function profile(){
-  //     let token = localStorage.getItem('token')
-  //     // try {
-  //       if(token){
-  //         let result = await axios.get('http://127.0.0.1:4000/api/profile')
-  //         // console.log(result)
-  //       setAuth({token:token, isAutherzed:true, username: result.data.username, id:result.data.id})
+  async  function profile(){
+      let token = localStorage.getItem('token')
+      // try {
+        if(token){
+          let result = await axios.get('http://127.0.0.1:4000/api/profile')
+          // console.log(result)
+        setAuth({token:token, isAutherzed:true, username: result.data.username, id:result.data.id})
           
-  //       }
+        }
         
-  //     // } catch (error) {
-  //     //   logOut()
-  //     // }
-  //   }
+      // } catch (error) {
+      //   logOut()
+      // }
+    }
   async  function getGoogleProfile(){
       let token = localStorage.getItem('token')
       // try {
