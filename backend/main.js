@@ -106,6 +106,7 @@ app.use('/api', adminRoute)
 app.use('/api', cartRoute)
 app.use('/api', clientRoute)
 
+
 app.use(passport.initialize());
 app.use(passport.session());
 
